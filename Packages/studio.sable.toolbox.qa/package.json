@@ -1,14 +1,14 @@
 {
   "name": "studio.sable.toolbox.qa",
   "displayName": "Sable Toolbox QA",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "unity": "2022.3",
   "description": "Avatar linter with rule profiles, one-click fixes, reports and an upload gate. Editor-only.",
   "author": { "name": "Sable Studios" },
   "license": "GPL-3.0-only",
   "keywords": ["vrchat", "avatar", "lint", "qa"],
   "vpmDependencies": {
-    "studio.sable.toolbox.core": ">=0.0.2"
+    "studio.sable.toolbox.core": ">=0.0.3"
   },
   "url": ""
 }
