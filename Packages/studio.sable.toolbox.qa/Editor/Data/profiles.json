@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "_comment": "Rule profiles and thresholds for the Sable linter. A profile lists the rules it runs; severity '' means the rule's default, 'Off' disables it. includeOtherRules runs any rule not listed (including third-party rules) at its default severity.",
+  "thresholds": [
+    { "key": "physbone.maxCollisionChecksPerComponent", "value": 64 },
+    { "key": "mesh.minBoundsExtent", "value": 0.05 }
+  ],
+  "profiles": [
+    {
+      "id": "personal",
+      "name": "Personal",
+      "includeOtherRules": true,
+      "rules": [
+        { "id": "qa.poiyomi-unlocked", "severity": "Info" },
+        { "id": "qa.unused-parameter", "severity": "Info" },
+        { "id": "qa.zero-weight-bones", "severity": "Off" },
+        { "id": "qa.empty-state", "severity": "Off" }
+      ]
+    },
+    {
+      "id": "commission",
+      "name": "Commission delivery",
+      "includeOtherRules": true,
+      "rules": [
+        { "id": "qa.poiyomi-unlocked", "severity": "Error" },
+        { "id": "qa.mixed-write-defaults", "severity": "Error" },
+        { "id": "qa.missing-visemes", "severity": "Error" },
+        { "id": "qa.texture-mipmaps", "severity": "Warning" },
+        { "id": "qa.unused-parameter", "severity": "Warning" }
+      ]
+    },
+    {
+      "id": "public",
+      "name": "Public release",
+      "includeOtherRules": true,
+      "rules": [
+        { "id": "qa.poiyomi-unlocked", "severity": "Error" },
+        { "id": "qa.mixed-write-defaults", "severity": "Error" },
+        { "id": "qa.missing-visemes", "severity": "Error" },
+        { "id": "qa.light-audio-enabled", "severity": "Error" },
+        { "id": "qa.unused-parameter", "severity": "Warning" },
+        { "id": "qa.zero-weight-bones", "severity": "Warning" }
+      ]
+    },
+    {
+      "id": "android",
+      "name": "Android",
+      "includeOtherRules": true,
+      "rules": [
+        { "id": "qa.light-audio-enabled", "severity": "Error" },
+        { "id": "qa.physbone-collision-checks", "severity": "Error" },
+        { "id": "qa.poiyomi-unlocked", "severity": "Off" }
+      ]
+    }
+  ]
+}

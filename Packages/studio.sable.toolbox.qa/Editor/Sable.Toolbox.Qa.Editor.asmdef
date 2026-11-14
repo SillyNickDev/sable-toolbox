@@ -1,0 +1,14 @@
+{
+  "name": "Sable.Toolbox.Qa.Editor",
+  "rootNamespace": "Sable.Toolbox.Qa",
+  "references": ["Sable.Toolbox.Core.Editor"],
+  "includePlatforms": ["Editor"],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
