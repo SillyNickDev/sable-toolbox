@@ -44,7 +44,7 @@ jobs:
           for dir in Packages/*/; do
             id=$(jq -r .name "$dir/package.json")
             version=$(jq -r .version "$dir/package.json")
-            cp LICENSE "$dir/LICENSE.md"
+            cp LICENSE "$dir/LICENSE.txt"
             (cd "$dir" && zip -qrX "$GITHUB_WORKSPACE/dist/$id-$version.zip" . -x '.*' 'Tests/*' 'Tests.meta')  # tests stay in the repo
           done
           ls -l dist

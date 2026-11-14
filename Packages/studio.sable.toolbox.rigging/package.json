@@ -5,7 +5,7 @@
   "unity": "2022.3",
   "description": "Rigging modules for Sable Toolbox: BlendShape Copier. Editor-only.",
   "author": { "name": "Sable Studios" },
-  "license": "SEE LICENSE",
+  "license": "GPL-3.0-only",
   "keywords": ["vrchat", "avatar", "blendshape"],
   "vpmDependencies": {
     "studio.sable.toolbox.core": ">=0.1.0"

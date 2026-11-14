@@ -5,7 +5,7 @@
   "unity": "2022.3",
   "description": "Avatar scanner, asset graph, findings, adapters and the Sable Toolbox window. Editor-only.",
   "author": { "name": "Sable Studios" },
-  "license": "SEE LICENSE",
+  "license": "GPL-3.0-only",
   "keywords": ["vrchat", "avatar", "editor"],
   "vpmDependencies": {
     "com.vrchat.avatars": ">=3.10.0"

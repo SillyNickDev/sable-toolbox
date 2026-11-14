@@ -105,4 +105,6 @@ placeholder.
 
 ## Licence
 
-Not chosen yet. See [LICENSE](LICENSE).
+GNU General Public License v3.0 only (GPL-3.0-only). See [LICENSE](LICENSE). You may use the toolbox
+in any project, including commercial commissions; avatars you build with it are not affected. If you
+distribute a modified version of the toolbox itself, it must stay GPL-3.0 with its source available.
