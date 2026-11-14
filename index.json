@@ -1,0 +1,58 @@
+{
+  "name": "Sable Studios",
+  "id": "studio.sable.vpm",
+  "author": "Sable Studios",
+  "url": "https://SillyNickDev.github.io/sable-toolbox/index.json",
+  "packages": {
+    "studio.sable.toolbox.core": {
+      "versions": {
+        "0.0.1": {
+          "name": "studio.sable.toolbox.core",
+          "displayName": "Sable Toolbox Core",
+          "version": "0.0.1",
+          "unity": "2022.3",
+          "description": "Avatar scanner, asset graph, findings, adapters and the Sable Toolbox window. Editor-only.",
+          "author": {
+            "name": "Sable Studios"
+          },
+          "license": "GPL-3.0-only",
+          "keywords": [
+            "vrchat",
+            "avatar",
+            "editor"
+          ],
+          "vpmDependencies": {
+            "com.vrchat.avatars": ">=3.10.0"
+          },
+          "url": "https://github.com/SillyNickDev/sable-toolbox/releases/download/v0.0.1/studio.sable.toolbox.core-0.0.1.zip",
+          "zipSHA256": "9dd91a6c449d68f41126bfb94862b079394bbdbf85533d37481816b6fc370ada"
+        }
+      }
+    },
+    "studio.sable.toolbox.rigging": {
+      "versions": {
+        "0.0.1": {
+          "name": "studio.sable.toolbox.rigging",
+          "displayName": "Sable Toolbox Rigging",
+          "version": "0.0.1",
+          "unity": "2022.3",
+          "description": "Rigging modules for Sable Toolbox: BlendShape Copier. Editor-only.",
+          "author": {
+            "name": "Sable Studios"
+          },
+          "license": "GPL-3.0-only",
+          "keywords": [
+            "vrchat",
+            "avatar",
+            "blendshape"
+          ],
+          "vpmDependencies": {
+            "studio.sable.toolbox.core": ">=0.0.1"
+          },
+          "url": "https://github.com/SillyNickDev/sable-toolbox/releases/download/v0.0.1/studio.sable.toolbox.rigging-0.0.1.zip",
+          "zipSHA256": "dcb697627b0494e5d9926c46189c33fbb1219366a9f43c69de81f3b030d86c31"
+        }
+      }
+    }
+  }
+}
