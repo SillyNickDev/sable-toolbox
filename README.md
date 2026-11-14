@@ -100,8 +100,7 @@ Unity.exe -batchmode -projectPath <project> -runTests -testPlatform EditMode -te
 ```
 
 **Releasing:** set the same version in every `package.json`, then push a tag such as `v0.1.0`. Enable GitHub
-Pages for the `gh-pages` branch once. The workflow refuses to release while `LICENSE` is a
-placeholder.
+Pages for the `gh-pages` branch once.
 
 ## Licence
 
