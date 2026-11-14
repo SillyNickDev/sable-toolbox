@@ -1,7 +1,7 @@
 {
   "name": "studio.sable.toolbox.materials",
   "displayName": "Sable Toolbox Materials",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "unity": "2022.3",
   "description": "Shader and material manager: inventory, bulk edit across shader families, presets and Poiyomi lock management. Editor-only.",
   "author": { "name": "Sable Studios" },

@@ -125,8 +125,9 @@ and inspects Poiyomi materials by reflection.
   are in the same file.
 - **Per-project settings** (`QaSettings`: active profile, run on save, build gate, severity
   overrides, suppressions) are stored in the toolbox settings file through
-  `SableToolboxSettings.Get/SetModuleSettings`, a JSON entry per module id. Suppressions are rule id +
-  `GlobalObjectId`.
+  `SableToolboxSettings.Get/SetModuleSettings`, a JSON entry per module id. Suppressions are rule id plus
+  the object's path under the avatar root and component type (assets: `GlobalObjectId`), so they still match on
+  the copy the SDK builds and on variants of the same avatar. Overrides are set per rule on the Linter page.
 - **Running.** You can run on demand from the Linter page or on save. The upload gate is an
   `IVRCSDKPreprocessAvatarCallback` at order −12000, so it runs before NDMF (−11000) and sees the avatar as
   authored; it blocks the build on errors, and outside batch mode it offers "Build anyway".
