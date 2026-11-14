@@ -5,7 +5,7 @@ dockable window, one shared avatar scan, and modules that plug into it. See [doc
 for the full plan and [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for how it fits together.
 
 Packages: **Core** (avatar scanner, asset graph, findings, build-tool detection, window, settings),
-**Rigging** (BlendShape Copier) and **QA** (linter with 16 starter rules, profiles, reports and an upload gate).
+**Rigging** (BlendShape Copier) and **QA** (linter with 16 starter rules, profiles, reports and an upload gate; performance budget).
 
 Requires Unity 2022.3 and VRChat Avatars SDK 3.10 or newer. Editor-only: nothing is added to
 uploaded avatars.
@@ -34,6 +34,12 @@ so the context menu entries are not registered twice.
   fix as one Undo step, Suppress hides it for that object in this project. **Export report** saves
   HTML (or Markdown with a .md name). **Run on save** re-lints when you save; **Block upload on
   errors** stops a VRChat SDK build while the profile has errors.
+- **Performance Budget** (QA package) shows the PC and Android rank side by side with the metric that
+  sets it, measured by the VRChat SDK's own calculator and rated against
+  `qa/Editor/Data/performance-limits.json`. A real-cost panel adds texture memory VRChat misses
+  (materials that only appear through animations), transparent materials and animator layers.
+  **What would get <platform> to <rank>** lists each blocking metric, how much to cut and the
+  objects contributing most.
 - **Project Settings > Sable Toolbox** sets the Generated folder and hides modules.
 
 ## Add a module
@@ -84,6 +90,7 @@ The window discovers it automatically. Rules for reading the scan:
 Packages/studio.sable.toolbox.core      core package (Editor/, Tests/Editor/)
 Packages/studio.sable.toolbox.rigging   rigging package
 Packages/studio.sable.toolbox.qa        linter (rules in Editor/Rules, profiles in Editor/Data/profiles.json)
+tools/gen-performance-limits.mjs          regenerates the rank thresholds from an SDK install
 listing/source.json                     VPM listing metadata
 .github/workflows/release.yml           tag vX.Y.Z -> zips, GitHub release, index.json on gh-pages
 ```
