@@ -25,6 +25,8 @@ namespace Sable.Toolbox.Scanning
         static ScanCache()
         {
             ObjectChangeEvents.changesPublished += (ref ObjectChangeEventStream _) => Invalidate();
+            // Also catches hierarchy edits made by scripts without Undo, which publish no change stream.
+            EditorApplication.hierarchyChanged += Invalidate;
             UnityEditor.Undo.undoRedoPerformed += Invalidate;
         }
 

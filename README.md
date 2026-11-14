@@ -96,7 +96,7 @@ and enable their tests:
 Then run **Window > General > Test Runner > EditMode**, or headless:
 
 ```
-Unity.exe -batchmode -nographics -projectPath <project> -runTests -testPlatform EditMode -testResults results.xml
+Unity.exe -batchmode -projectPath <project> -runTests -testPlatform EditMode -testResults results.xml
 ```
 
 **Releasing:** set the same version in every `package.json`, then push a tag such as `v0.1.0`. Enable GitHub

@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Linq;
 using NUnit.Framework;
+using UnityEngine.TestTools;
 using Sable.Toolbox.Adapters;
 using Sable.Toolbox.Scanning;
 using UnityEngine;
@@ -67,6 +69,45 @@ namespace Sable.Toolbox.Tests
             ScanCache.Invalidate();
             Assert.IsFalse(ScanCache.IsCached(avatar.Descriptor));
             Assert.AreNotSame(first, ScanCache.Get(avatar.Descriptor));
+        }
+
+        [UnityTest]
+        public IEnumerator CacheInvalidatesOnHierarchyChangeWithoutUndo()
+        {
+            int events = 0;
+            void Count() => events++;
+            UnityEditor.EditorApplication.hierarchyChanged += Count;
+            try
+            {
+                ScanCache.Get(avatar.Descriptor);
+                new GameObject("Tail").transform.SetParent(avatar.Root.transform); // no Undo, like most scripts
+                for (int i = 0; i < 5; i++) yield return null;
+
+                // Unity does not dispatch hierarchyChanged in batch mode (no hierarchy window), so this
+                // can only be checked from the interactive Test Runner.
+                if (events == 0) Assert.Ignore("hierarchyChanged is not dispatched in this editor session (batch mode).");
+                Assert.IsFalse(ScanCache.IsCached(avatar.Descriptor), "reparent");
+
+                ScanCache.Get(avatar.Descriptor);
+                avatar.Root.transform.Find("Tail").gameObject.AddComponent<VRC.SDK3.Dynamics.PhysBone.Components.VRCPhysBone>();
+                for (int i = 0; i < 5; i++) yield return null;
+                Assert.IsFalse(ScanCache.IsCached(avatar.Descriptor), "add component");
+            }
+            finally
+            {
+                UnityEditor.EditorApplication.hierarchyChanged -= Count;
+            }
+        }
+
+        [UnityTest]
+        public IEnumerator CacheInvalidatesOnUndoRecordedPropertyChange()
+        {
+            ScanCache.Get(avatar.Descriptor);
+            UnityEditor.Undo.RecordObject(avatar.Body, "Swap material");
+            avatar.Body.sharedMaterials = new[] { avatar.SwapMat };
+            UnityEditor.Undo.FlushUndoRecordObjects();
+            yield return null;
+            Assert.IsFalse(ScanCache.IsCached(avatar.Descriptor));
         }
 
         [Test]

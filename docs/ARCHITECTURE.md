@@ -33,12 +33,22 @@ what it found. Nothing else in the toolbox walks the hierarchy: modules and adap
 All lists are de-duplicated, keep discovery order and include inactive objects. `AvatarScan.Counts()`
 gives the per-category counts the Overview page shows.
 
-**Invalidation.** Any `ObjectChangeEvents` stream (hierarchy, component or property change in a
-scene, asset object change), any asset import, delete or move, and any undo or redo clears the cache.
-`ScanCache.Invalidated` then fires once on the next editor update, and the window passes it on to modules
-through `ToolboxContext.Changed`. 0.1 clears all cached avatars on any change (marked `ponytail:` in
-`ScanCache`). After the first scan, a cache hit is a dictionary lookup, which is how the roadmap's "under a second after first
-scan" goal is met.
+**Invalidation.** The cache is cleared by:
+
+- any `ObjectChangeEvents` stream (Undo-recorded hierarchy, component or property changes, and asset object changes)
+- `EditorApplication.hierarchyChanged`, which catches objects created, reparented or given components without Undo
+- any asset import, delete or move
+- any undo or redo
+
+`ScanCache.Invalidated` then fires once on the next editor update, and the window passes it on to
+modules through `ToolboxContext.Changed`. A property set by a script *without* Undo (for example
+assigning a material in code) raises none of these, so **Rescan** in the toolbar exists for that case.
+0.1 clears all cached avatars on any change (marked `ponytail:` in `ScanCache`).
+
+**Speed.** A cache hit is a dictionary lookup. A rescan after an edit is a full scan; its time is
+shown on the Overview page ("Scanned in N ms"). The roadmap target of under a second for a full
+commission avatar has **not been measured yet**; check that line on a real avatar. If it misses,
+the upgrade is per-avatar, per-category invalidation driven by the `ObjectChangeEvents` stream.
 
 **Asset graph.** `AvatarScan.Graph` records `from -> to` edges between scene components and assets:
 descriptor to controllers, parameters and menus; renderer to mesh and materials; material to shader

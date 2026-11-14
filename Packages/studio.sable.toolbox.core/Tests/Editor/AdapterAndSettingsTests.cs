@@ -66,6 +66,32 @@ namespace Sable.Toolbox.Tests
         }
 
         [Test]
+        public void EveryModuleBuildsItsViewForAnAvatar()
+        {
+            TestAvatar avatar = TestAvatar.Build();
+            try
+            {
+                var context = new ToolboxContext { Avatar = avatar.Descriptor };
+                foreach (IToolboxModule module in ModuleRegistry.CreateAll())
+                    Assert.IsNotNull(module.CreateView(context), module.Id);
+            }
+            finally
+            {
+                avatar.Destroy();
+            }
+        }
+
+        [Test]
+        public void WindowOpensAndCloses()
+        {
+            if (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null)
+                Assert.Ignore("Needs a graphics device; run without -nographics.");
+            var window = EditorWindow.GetWindow<SableToolboxWindow>();
+            Assert.IsNotNull(window);
+            window.Close();
+        }
+
+        [Test]
         public void GeneratedPathsStayUnderGeneratedRoot()
         {
             SableToolboxSettings settings = SableToolboxSettings.instance;
