@@ -60,6 +60,8 @@ namespace Sable.Toolbox.Scanning
         public IReadOnlyList<VRCExpressionParameters.Parameter> Parameters => parameters;
         public IReadOnlyList<VRCExpressionsMenu> Menus => menus;
         public int MissingScriptCount { get; internal set; }
+        /// <summary>GameObjects carrying at least one missing script.</summary>
+        public IReadOnlyList<GameObject> MissingScriptObjects => missingScriptObjects;
         public IReadOnlyList<BuildToolReport> BuildTools => buildTools;
 
         public AssetGraph Graph { get; } = new AssetGraph();
@@ -104,6 +106,7 @@ namespace Sable.Toolbox.Scanning
         internal readonly List<VRCExpressionParameters.Parameter> parameters = new List<VRCExpressionParameters.Parameter>();
         internal readonly UniqueList<VRCExpressionsMenu> menus = new UniqueList<VRCExpressionsMenu>();
         internal readonly List<BuildToolReport> buildTools = new List<BuildToolReport>();
+        internal readonly List<GameObject> missingScriptObjects = new List<GameObject>();
     }
 
     /// <summary>Insertion-ordered list that ignores nulls and duplicates.</summary>

@@ -43,6 +43,34 @@ namespace Sable.Toolbox.Settings
         }
 
         public void SaveSettings() => Save(true);
+
+        // ------------------------------------------------------------ module settings
+        // Modules keep their options in this same file (one settings file per project), each as a
+        // JSON blob under its module id, so core needs no knowledge of their types.
+
+        [System.Serializable]
+        private class ModuleEntry { public string id; public string json; }
+
+        [SerializeField, HideInInspector] private List<ModuleEntry> moduleSettings = new List<ModuleEntry>();
+
+        /// <summary>The module's options, or a new T if none are saved yet. T must be JsonUtility-serializable.</summary>
+        public T GetModuleSettings<T>(string moduleId) where T : new()
+        {
+            ModuleEntry e = moduleSettings.Find(m => m.id == moduleId);
+            if (e == null || string.IsNullOrEmpty(e.json)) return new T();
+            var value = new T();
+            JsonUtility.FromJsonOverwrite(e.json, value);
+            return value;
+        }
+
+        public void SetModuleSettings<T>(string moduleId, T value)
+        {
+            UnityEditor.Undo.RecordObject(this, "Change Sable Toolbox settings");
+            ModuleEntry e = moduleSettings.Find(m => m.id == moduleId);
+            if (e == null) moduleSettings.Add(e = new ModuleEntry { id = moduleId });
+            e.json = JsonUtility.ToJson(value);
+            Save(true);
+        }
     }
 
     internal static class SableToolboxSettingsProvider

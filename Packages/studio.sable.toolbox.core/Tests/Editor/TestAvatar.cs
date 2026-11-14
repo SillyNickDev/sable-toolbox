@@ -21,7 +21,7 @@ namespace Sable.Toolbox.Tests
     /// FX controller: layers Base, Toggle; Toggle clip swaps Body's material to SwapMat -> SwapTex.
     /// Parameters: 2. Menus: Root -> Sub -> Root (a loop).
     /// </summary>
-    internal sealed class TestAvatar
+    public sealed class TestAvatar
     {
         public GameObject Root;
         public VRCAvatarDescriptor Descriptor;

@@ -43,6 +43,10 @@ namespace Sable.Toolbox.Scanning
                         foreach (Transform b in smr.bones) scan.bones.Add(b);
                         AddRendererMaterials(scan, smr);
                         break;
+                    case Transform t:
+                        if (GameObjectUtility.GetMonoBehavioursWithMissingScriptCount(t.gameObject) > 0)
+                            scan.missingScriptObjects.Add(t.gameObject);
+                        break;
                     case Renderer r:
                         scan.renderers.Add(r);
                         AddRendererMaterials(scan, r);
@@ -138,7 +142,7 @@ namespace Sable.Toolbox.Scanning
                 if (layer.isDefault || rac == null) continue;
                 scan.Graph.Add(d, rac);
 
-                if (EditorControllerOf(rac) is UnityEditor.Animations.AnimatorController ac)
+                if (AnimatorUtil.EditorController(rac) is UnityEditor.Animations.AnimatorController ac)
                 {
                     UnityEditor.Animations.AnimatorControllerLayer[] acLayers = ac.layers;
                     for (int i = 0; i < acLayers.Length; i++)
@@ -152,13 +156,6 @@ namespace Sable.Toolbox.Scanning
                     if (scan.clips.Add(clip)) AddClipReferences(scan, clip);
                 }
             }
-        }
-
-        private static RuntimeAnimatorController EditorControllerOf(RuntimeAnimatorController rac)
-        {
-            // Override controllers wrap a base controller; layer structure lives on the base.
-            while (rac is AnimatorOverrideController aoc) rac = aoc.runtimeAnimatorController;
-            return rac;
         }
 
         /// <summary>Object-reference curves: material swaps and any other asset a clip keys in.</summary>

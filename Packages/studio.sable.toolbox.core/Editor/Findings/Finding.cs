@@ -24,9 +24,11 @@ namespace Sable.Toolbox.Findings
         public string Message { get; }
         public string Explanation { get; }
         public FixAction Fix { get; }
+        /// <summary>The rule or check that produced this finding. Defaults to SourceId.</summary>
+        public string RuleId { get; }
 
         public Finding(string sourceId, Severity severity, Object location, string message,
-            string explanation = null, FixAction fix = null, string propertyPath = null)
+            string explanation = null, FixAction fix = null, string propertyPath = null, string ruleId = null)
         {
             if (string.IsNullOrEmpty(sourceId)) throw new ArgumentException("A finding needs a source id.", nameof(sourceId));
             if (string.IsNullOrEmpty(message)) throw new ArgumentException("A finding needs a message.", nameof(message));
@@ -37,7 +39,15 @@ namespace Sable.Toolbox.Findings
             Explanation = explanation ?? string.Empty;
             Fix = fix;
             PropertyPath = propertyPath;
+            RuleId = string.IsNullOrEmpty(ruleId) ? sourceId : ruleId;
         }
+
+        /// <summary>
+        /// A copy under another emitter and/or severity, keeping RuleId. Used by the linter to file
+        /// rule findings under its own source with the active profile's severity.
+        /// </summary>
+        public Finding With(string sourceId = null, Severity? severity = null) =>
+            new Finding(sourceId ?? SourceId, severity ?? Severity, Location, Message, Explanation, Fix, PropertyPath, RuleId);
     }
 
     /// <summary>
