@@ -57,10 +57,22 @@ namespace Sable.Toolbox.Shaders
             return (bool)setLocked.Invoke(null, args);
         }
 
-        /// <summary>Properties marked to stay animatable after locking (the "…Animated" tags).</summary>
-        public static bool IsMarkedAnimated(Material m, string propertyName) =>
-            m != null && !string.IsNullOrEmpty(m.GetTag(propertyName + AnimatedSuffix, false, ""))
-                      && m.GetTag(propertyName + AnimatedSuffix, false, "") != "0";
+        /// <summary>
+        /// True when the property is marked to stay animatable after locking: the material tag
+        /// "{property}Animated" is "1" (animated) or "2" (animated and renamed on lock), as in Thry's
+        /// ShaderOptimizer.IsAnimated. On a locked material a "2" property appears renamed
+        /// ("_Color_Body"), so the name's prefixes up to each '_' are checked too.
+        /// </summary>
+        public static bool IsMarkedAnimated(Material m, string propertyName)
+        {
+            if (m == null || string.IsNullOrEmpty(propertyName)) return false;
+            if (Tag(m, propertyName) != "0") return true;
+            for (int i = propertyName.IndexOf('_', 1); i > 0; i = propertyName.IndexOf('_', i + 1))
+                if (Tag(m, propertyName.Substring(0, i)) == "2") return true;
+            return false;
+        }
+
+        private static string Tag(Material m, string property) => m.GetTag(property + AnimatedSuffix, false, "0");
 
         private static bool IsLockedByName(Material m) =>
             m.shader != null && m.shader.name.StartsWith(LockedShaderPrefix, StringComparison.Ordinal);
