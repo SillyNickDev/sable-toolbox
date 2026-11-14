@@ -13,12 +13,11 @@ uploaded avatars.
 ## Install via VPM
 
 1. In VRChat Creator Companion or ALCOM, open **Settings > Packages > Add Repository**.
-2. Paste the listing URL: `https://<owner>.github.io/<repo>/index.json`
-   (filled in once the GitHub repo is live).
+2. Paste the listing URL: `https://sillynickdev.github.io/sable-toolbox/index.json`
 3. Open your avatar project's **Manage Project** and add **Sable Toolbox Core**, plus
    **Sable Toolbox Rigging** for the BlendShape Copier.
 
-With vrc-get: `vrc-get repo add <listing URL>`, then `vrc-get install studio.sable.toolbox.rigging`.
+With vrc-get: `vrc-get repo add https://sillynickdev.github.io/sable-toolbox/index.json`, then `vrc-get install studio.sable.toolbox.rigging`.
 
 If you used the standalone BlendShape Copier before, delete `Assets/Editor/BlendShapeCopierWindow.cs`
 so the context menu entries are not registered twice.
