@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "_comment": "Full type names whose components (or subclasses) mark a build-time tool. 'verifiedAgainst' is documentation only.",
+  "adapters": [
+    {
+      "id": "modular-avatar",
+      "displayName": "Modular Avatar",
+      "typeNames": ["nadena.dev.modular_avatar.core.AvatarTagComponent"],
+      "verifiedAgainst": "nadena.dev.modular-avatar 1.18.3"
+    },
+    {
+      "id": "vrcfury",
+      "displayName": "VRCFury",
+      "typeNames": ["VF.Component.VRCFuryComponent"],
+      "verifiedAgainst": "com.vrcfury.vrcfury 1.1421.0"
+    },
+    {
+      "id": "avatar-optimizer",
+      "displayName": "Avatar Optimizer (AAO)",
+      "typeNames": ["Anatawa12.AvatarOptimizer.AvatarTagComponent"],
+      "verifiedAgainst": "UNVERIFIED: not installed in any local project"
+    },
+    {
+      "id": "d4rk-avatar-optimizer",
+      "displayName": "d4rk Avatar Optimizer",
+      "typeNames": ["d4rkAvatarOptimizer"],
+      "verifiedAgainst": "UNVERIFIED: not installed in any local project"
+    }
+  ]
+}
