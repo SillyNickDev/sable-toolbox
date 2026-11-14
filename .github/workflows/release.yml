@@ -1,0 +1,95 @@
+name: Release
+
+# Push a tag like v0.1.0 (every Packages/*/package.json must have that version).
+# Builds one zip per package, attaches them to a GitHub release, and adds the new
+# versions to the VPM listing (index.json) on the gh-pages branch.
+# Uses only actions/checkout plus jq, zip and gh, which GitHub's Ubuntu runners include.
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Preflight
+        run: |
+          set -euo pipefail
+          version="${TAG#v}"
+          if grep -q 'LICENSE PLACEHOLDER' LICENSE; then
+            echo "::error::LICENSE is still a placeholder. Choose a licence before releasing."; exit 1
+          fi
+          for p in Packages/*/package.json; do
+            jq -e --arg v "$version" '.version == $v' "$p" > /dev/null \
+              || { echo "::error::$p version does not match tag $TAG"; exit 1; }
+          done
+
+      - name: Build package zips
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          for dir in Packages/*/; do
+            id=$(jq -r .name "$dir/package.json")
+            version=$(jq -r .version "$dir/package.json")
+            cp LICENSE "$dir/LICENSE.md"
+            (cd "$dir" && zip -qrX "$GITHUB_WORKSPACE/dist/$id-$version.zip" . -x '.*')
+          done
+          ls -l dist
+
+      - name: Create GitHub release
+        run: gh release create "$TAG" dist/*.zip --title "$TAG" --generate-notes
+
+      - name: Update VPM listing on gh-pages
+        run: |
+          set -euo pipefail
+          repo="${GITHUB_REPOSITORY}"
+          owner="${GITHUB_REPOSITORY_OWNER}"
+          name="${repo#*/}"
+          default_url="https://${owner}.github.io/${name}/index.json"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git fetch --depth=1 origin gh-pages; then
+            git worktree add site origin/gh-pages
+            git -C site checkout -B gh-pages
+          else
+            git worktree add --orphan -b gh-pages site
+          fi
+
+          index=site/index.json
+          [ -f "$index" ] || cp listing/source.json "$index"
+          # Listing metadata always comes from source.json; packages accumulate.
+          jq --slurpfile src listing/source.json --arg url "$default_url" '
+            .name = $src[0].name | .id = $src[0].id | .author = $src[0].author
+            | .url = (if ($src[0].url // "") == "" then $url else $src[0].url end)
+            | .packages = (.packages // {}) | del(._comment)' "$index" > tmp.json && mv tmp.json "$index"
+
+          for dir in Packages/*/; do
+            id=$(jq -r .name "$dir/package.json")
+            version=$(jq -r .version "$dir/package.json")
+            zip="dist/$id-$version.zip"
+            sha=$(sha256sum "$zip" | cut -d' ' -f1)
+            url="https://github.com/${repo}/releases/download/${TAG}/$id-$version.zip"
+            jq --arg id "$id" --arg v "$version" --arg url "$url" --arg sha "$sha" \
+               --slurpfile pkg "$dir/package.json" \
+               '.packages[$id].versions[$v] = ($pkg[0] + {url: $url, zipSHA256: $sha})' \
+               "$index" > tmp.json && mv tmp.json "$index"
+          done
+
+          touch site/.nojekyll
+          git -C site add index.json .nojekyll
+          git -C site commit -m "Listing: add $TAG"
+          git -C site push origin gh-pages

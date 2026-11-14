@@ -1,0 +1,8 @@
+{
+  "name": "Sable Studios",
+  "id": "studio.sable.vpm",
+  "author": "Sable Studios",
+  "url": "",
+  "_comment": "Listing metadata. The release workflow fills 'url' (https://<owner>.github.io/<repo>/index.json if left empty) and 'packages' from GitHub releases, and publishes index.json to the gh-pages branch.",
+  "packages": {}
+}
