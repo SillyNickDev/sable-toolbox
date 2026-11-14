@@ -51,6 +51,26 @@ namespace Sable.Toolbox.Qa
             suppressedRow.Add(suppressedLabel); suppressedRow.Add(clearSuppressed);
             root.Add(suppressedRow);
 
+            // Per-project severity overrides, applied on top of every profile.
+            var rules = new Foldout { text = "Rules and project overrides", value = false, style = { marginTop = 6 } };
+            var choices = new List<string> { "Profile default", "Off", "Info", "Warning", "Error" };
+            foreach (IAvatarRule rule in Linter.Rules)
+            {
+                string ruleId = rule.Id;
+                RuleSetting existing = settings.overrides.FirstOrDefault(o => o.id == ruleId);
+                int index = existing == null ? 0 : Math.Max(0, choices.FindIndex(c => c.Equals(existing.severity, StringComparison.OrdinalIgnoreCase)));
+                var field = new DropdownField($"{rule.Title}", choices, index) { tooltip = $"{ruleId} · default {rule.DefaultSeverity}" };
+                field.RegisterValueChangedCallback(e =>
+                {
+                    settings.overrides.RemoveAll(o => o.id == ruleId);
+                    if (field.index > 0) settings.overrides.Add(new RuleSetting { id = ruleId, severity = choices[field.index] });
+                    settings.Save();
+                    if (hasRun) Run();
+                });
+                rules.Add(field);
+            }
+            root.Add(rules);
+
             QaProfile Active() => Linter.Profile(settings.activeProfile);
 
             void Run()

@@ -60,7 +60,20 @@ namespace Sable.Toolbox.Qa
             Save();
         }
 
-        public static string ObjectId(Object o) => GlobalObjectId.GetGlobalObjectIdSlow(o).ToString();
+        /// <summary>
+        /// Suppression key. Scene objects use their path under the avatar root plus component type, so a
+        /// suppression still matches on the copy the SDK builds (the upload gate lints that copy) and on
+        /// variants of the same avatar. Assets use their GlobalObjectId.
+        /// </summary>
+        public static string ObjectId(Object o)
+        {
+            Transform t = o is Component c ? c.transform : o is GameObject go ? go.transform : null;
+            if (t == null) return GlobalObjectId.GetGlobalObjectIdSlow(o).ToString();
+            var parts = new List<string>();
+            for (Transform x = t; x != null && x.GetComponent<VRC.SDK3.Avatars.Components.VRCAvatarDescriptor>() == null; x = x.parent)
+                parts.Insert(0, x.name);
+            return "path:" + string.Join("/", parts) + (o is Component ? "|" + o.GetType().FullName : "");
+        }
     }
 
     public static class Linter
