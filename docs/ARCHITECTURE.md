@@ -7,7 +7,8 @@ from the toolbox ends up in an uploaded avatar. Targets Unity 2022.3 and VRChat 
 studio.sable.toolbox.core      Sable.Toolbox.Core.Editor     scanner, asset graph, findings, adapters, window, settings, undo
 studio.sable.toolbox.rigging   Sable.Toolbox.Rigging.Editor  BlendShape Copier module          -> depends on core
 studio.sable.toolbox.qa        Sable.Toolbox.Qa.Editor       linter: rules, profiles, reports, upload gate -> depends on core
-(later) materials, animation, delivery, ndmf, android        one asmdef each                   -> depend on core
+studio.sable.toolbox.materials Sable.Toolbox.Materials.Editor material manager                  -> depends on core
+(later) animation, delivery, ndmf, android                   one asmdef each                   -> depend on core
 ```
 
 ## Scanner model
@@ -175,7 +176,7 @@ each module in its own window (the BlendShape Copier already has one).
 
 | Module (release) | Package | Reads | Plugs in through |
 | --- | --- | --- | --- |
-| Material manager (0.2) | materials | `Materials`, `AnimatedOnlyMaterials`, `Shaders`, `Textures`, `Graph.ReferencedBy` for "renderers and slots using it" | `IToolboxModule`; edits via `ToolboxUndo`; converted copies via `GeneratedAssets`; cost findings into `FindingSet` |
+| Material manager (shipped in 0.0.4) | materials | `Materials`, `AnimatedOnlyMaterials`, `Renderers`, `Clips` | `MaterialManagerModule`. Families and semantic aliases in `materials/Editor/Data/property-aliases.json` (Poiyomi checked against 9.3.64, lilToon unverified). `MaterialEdits` records Undo and skips locked materials. Presets are per-machine JSON files (`PresetLibrary`, EditorPrefs folder) holding values per family; applying to another family goes through the alias map. Locking goes through core `PoiyomiBridge`. "Stale" means locked with a missing or broken generated shader. The animated-property audit emits findings with a "Mark animated" fix. Shader conversion, dedupe and texture tools come later, and will write copies via `GeneratedAssets` |
 | Linter (shipped in 0.0.2) | qa | whole `AvatarScan` | `IAvatarRule` (above); `LinterModule` runs a profile and calls `Findings.Replace(Linter.SourceId, ...)`; fixes are `FixAction`s |
 | Performance budget (shipped in 0.0.3) | qa | SDK `AvatarPerformance.CalculatePerformanceStats` per platform; per-object shares from `AvatarScan` | `BudgetModule`; thresholds in `qa/Editor/Data/performance-limits.json`, generated from the SDK's StatsLevels assets by `tools/gen-performance-limits.mjs` (metric ids are SDK field paths, so a new SDK stat is a data change); metrics over the target rank become findings; build-time estimates wait for the adapter estimate interface |
 | Texture tools, BlendShape tools, bone utils, component copier (0.3) | materials / rigging | `Textures`, `Renderers`, `Bones`, `PhysBones`, ... | `IToolboxModule` each |
