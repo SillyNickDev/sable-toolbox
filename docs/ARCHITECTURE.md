@@ -1,4 +1,4 @@
-# Sable Toolbox architecture (0.1 Foundation)
+# Sable Toolbox architecture
 
 All code is editor-only: every assembly definition includes only the Editor platform, so nothing
 from the toolbox ends up in an uploaded avatar. Targets Unity 2022.3 and VRChat Avatars SDK 3.10.x.
@@ -6,7 +6,8 @@ from the toolbox ends up in an uploaded avatar. Targets Unity 2022.3 and VRChat 
 ```
 studio.sable.toolbox.core      Sable.Toolbox.Core.Editor     scanner, asset graph, findings, adapters, window, settings, undo
 studio.sable.toolbox.rigging   Sable.Toolbox.Rigging.Editor  BlendShape Copier module          -> depends on core
-(later) materials, qa, animation, delivery, ndmf, android    one asmdef each                   -> depend on core
+studio.sable.toolbox.qa        Sable.Toolbox.Qa.Editor       linter: rules, profiles, reports, upload gate -> depends on core
+(later) materials, animation, delivery, ndmf, android        one asmdef each                   -> depend on core
 ```
 
 ## Scanner model
@@ -93,23 +94,43 @@ read `ctx.Scan`, subscribe to `ctx.Changed`, and write `ctx.Findings`. Users can
 Project Settings > Sable Toolbox. IMGUI tools can be hosted with an `IMGUIContainer`, as the
 BlendShape Copier does.
 
-### Rules (for the linter, 0.2)
+### Rules (linter, `studio.sable.toolbox.qa`)
 
-The rule contract belongs to the `qa` package, not core, because only the linter runs rules:
+The rule contract lives in the `qa` package, not core, because only the linter runs rules:
 
 ```csharp
-public interface IAvatarRule                     // studio.sable.toolbox.qa
+public interface IAvatarRule
 {
-    string Id { get; }
+    string Id { get; }                 // "qa.missing-shader"; used by profiles, overrides, suppressions
+    string Title { get; }
     Severity DefaultSeverity { get; }
-    IEnumerable<Finding> Check(AvatarScan scan); // findings may carry a FixAction
+    IEnumerable<Finding> Check(AvatarScan scan, RuleContext context);  // findings may carry a FixAction
 }
 ```
 
-Rules use only the core types `AvatarScan`, `Finding`, `FixAction` and `Severity`, which are already
-stable, so adding the linter changes nothing in core. Third-party packages reference `qa`, implement
-`IAvatarRule`, and the linter finds them through `TypeCache`, the same way the window finds modules.
-Profiles ("Commission delivery", "Android") are data files listing rule ids and severity overrides.
+`AvatarRule` is an optional base class that fills in the source id and severity. Third-party packages
+reference `Sable.Toolbox.Qa.Editor`, implement the interface on a class with a public parameterless
+constructor, and `Linter.Rules` finds it through `TypeCache`, the same way the window finds modules.
+A rule only reads the scan; anything it changes happens inside a `FixAction`.
+
+The linter added two things to core, both additive: `Finding.RuleId` (with `Finding.With`), so findings filed
+under the linter's single source id keep the rule that produced them; and `PoiyomiBridge`, which locks
+and inspects Poiyomi materials by reflection.
+
+- **Profiles** are data in `qa/Editor/Data/profiles.json` (versioned): Personal, Commission delivery,
+  Public release, Android. Each lists rule ids with a severity (`""` = rule default, `"Off"`). Rules
+  a profile doesn't list run at their default severity when `includeOtherRules` is true, which is how
+  third-party rules join every profile. Thresholds (collision checks per chain, minimum bounds)
+  are in the same file.
+- **Per-project settings** (`QaSettings`: active profile, run on save, build gate, severity
+  overrides, suppressions) are stored in the toolbox settings file through
+  `SableToolboxSettings.Get/SetModuleSettings`, a JSON entry per module id. Suppressions are rule id +
+  `GlobalObjectId`.
+- **Running.** You can run on demand from the Linter page or on save. The upload gate is an
+  `IVRCSDKPreprocessAvatarCallback` at order −12000, so it runs before NDMF (−11000) and sees the avatar as
+  authored; it blocks the build on errors, and outside batch mode it offers "Build anyway".
+- **Reports.** `LintReport.Markdown` and `LintReport.Html` produce a QA record for a commission.
+- A rule that throws becomes one error finding; the other rules still run.
 
 ### Adapters
 
@@ -155,7 +176,7 @@ each module in its own window (the BlendShape Copier already has one).
 | Module (release) | Package | Reads | Plugs in through |
 | --- | --- | --- | --- |
 | Material manager (0.2) | materials | `Materials`, `AnimatedOnlyMaterials`, `Shaders`, `Textures`, `Graph.ReferencedBy` for "renderers and slots using it" | `IToolboxModule`; edits via `ToolboxUndo`; converted copies via `GeneratedAssets`; cost findings into `FindingSet` |
-| Linter (0.2) | qa | whole `AvatarScan` | `IAvatarRule` in qa (above); one `IToolboxModule` runs a profile and calls `Findings.Replace("qa.linter", ...)`; fixes are `FixAction`s |
+| Linter (shipped in 0.0.2) | qa | whole `AvatarScan` | `IAvatarRule` (above); `LinterModule` runs a profile and calls `Findings.Replace(Linter.SourceId, ...)`; fixes are `FixAction`s |
 | Performance budget (0.2) | qa | counts from `AvatarScan`; build-time estimates from adapters | `IToolboxModule`; thresholds in a versioned `Data/performance-limits.json` in qa (PC and mobile tables from the spec); over-limit items emitted as findings |
 | Texture tools, BlendShape tools, bone utils, component copier (0.3) | materials / rigging | `Textures`, `Renderers`, `Bones`, `PhysBones`, ... | `IToolboxModule` each |
 | Animator and parameter tools (0.3) | animation | `AnimatorLayers`, `Clips`, `Parameters`, `Menus` | `IToolboxModule`; Write Defaults across merged controllers needs the adapter estimate interface |
