@@ -32,6 +32,9 @@ namespace Sable.Toolbox.Scanning
             foreach (Component c in scan.components)
             {
                 if (c == null) { scan.MissingScriptCount++; continue; }
+                if (c is Renderer || c is MeshFilter || c is VRCPhysBoneBase || c is VRCPhysBoneColliderBase
+                    || c is ContactBase || c is VRCConstraintBase || c is IConstraint)
+                    g.Add(descriptor, c); // the avatar owns its scene components
                 switch (c)
                 {
                     case SkinnedMeshRenderer smr:
