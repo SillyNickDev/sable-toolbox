@@ -26,6 +26,27 @@
           },
           "url": "https://github.com/SillyNickDev/sable-toolbox/releases/download/v0.0.1/studio.sable.toolbox.core-0.0.1.zip",
           "zipSHA256": "9dd91a6c449d68f41126bfb94862b079394bbdbf85533d37481816b6fc370ada"
+        },
+        "0.0.2": {
+          "name": "studio.sable.toolbox.core",
+          "displayName": "Sable Toolbox Core",
+          "version": "0.0.2",
+          "unity": "2022.3",
+          "description": "Avatar scanner, asset graph, findings, adapters and the Sable Toolbox window. Editor-only.",
+          "author": {
+            "name": "Sable Studios"
+          },
+          "license": "GPL-3.0-only",
+          "keywords": [
+            "vrchat",
+            "avatar",
+            "editor"
+          ],
+          "vpmDependencies": {
+            "com.vrchat.avatars": ">=3.10.0"
+          },
+          "url": "https://github.com/SillyNickDev/sable-toolbox/releases/download/v0.0.2/studio.sable.toolbox.core-0.0.2.zip",
+          "zipSHA256": "25f2ad539f79319b3db31bf4f6834513bf9681cffeb8c443b64a60f4f0d0341f"
         }
       }
     },
@@ -51,6 +72,53 @@
           },
           "url": "https://github.com/SillyNickDev/sable-toolbox/releases/download/v0.0.1/studio.sable.toolbox.rigging-0.0.1.zip",
           "zipSHA256": "dcb697627b0494e5d9926c46189c33fbb1219366a9f43c69de81f3b030d86c31"
+        },
+        "0.0.2": {
+          "name": "studio.sable.toolbox.rigging",
+          "displayName": "Sable Toolbox Rigging",
+          "version": "0.0.2",
+          "unity": "2022.3",
+          "description": "Rigging modules for Sable Toolbox: BlendShape Copier. Editor-only.",
+          "author": {
+            "name": "Sable Studios"
+          },
+          "license": "GPL-3.0-only",
+          "keywords": [
+            "vrchat",
+            "avatar",
+            "blendshape"
+          ],
+          "vpmDependencies": {
+            "studio.sable.toolbox.core": ">=0.0.1"
+          },
+          "url": "https://github.com/SillyNickDev/sable-toolbox/releases/download/v0.0.2/studio.sable.toolbox.rigging-0.0.2.zip",
+          "zipSHA256": "60684226edd7308275f10adb91222a6f12ec250bdcd580f810d6a2aa26425e8a"
+        }
+      }
+    },
+    "studio.sable.toolbox.qa": {
+      "versions": {
+        "0.0.2": {
+          "name": "studio.sable.toolbox.qa",
+          "displayName": "Sable Toolbox QA",
+          "version": "0.0.2",
+          "unity": "2022.3",
+          "description": "Avatar linter with rule profiles, one-click fixes, reports and an upload gate. Editor-only.",
+          "author": {
+            "name": "Sable Studios"
+          },
+          "license": "GPL-3.0-only",
+          "keywords": [
+            "vrchat",
+            "avatar",
+            "lint",
+            "qa"
+          ],
+          "vpmDependencies": {
+            "studio.sable.toolbox.core": ">=0.0.2"
+          },
+          "url": "https://github.com/SillyNickDev/sable-toolbox/releases/download/v0.0.2/studio.sable.toolbox.qa-0.0.2.zip",
+          "zipSHA256": "6949a7ed695cffc232ef08088622955d2621fe721e1d0349ce97755b9367c9fa"
         }
       }
     }
