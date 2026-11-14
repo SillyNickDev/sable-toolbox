@@ -1,0 +1,5 @@
+# Unity scratch projects used for local verification
+/.verify/
+*.zip
+.DS_Store
+Thumbs.db

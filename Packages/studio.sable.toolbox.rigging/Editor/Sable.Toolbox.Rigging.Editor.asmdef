@@ -1,0 +1,14 @@
+{
+  "name": "Sable.Toolbox.Rigging.Editor",
+  "rootNamespace": "Sable.Toolbox.Rigging",
+  "references": ["Sable.Toolbox.Core.Editor"],
+  "includePlatforms": ["Editor"],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

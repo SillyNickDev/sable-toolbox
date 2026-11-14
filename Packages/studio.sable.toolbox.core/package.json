@@ -1,0 +1,14 @@
+{
+  "name": "studio.sable.toolbox.core",
+  "displayName": "Sable Toolbox Core",
+  "version": "0.1.0",
+  "unity": "2022.3",
+  "description": "Avatar scanner, asset graph, findings, adapters and the Sable Toolbox window. Editor-only.",
+  "author": { "name": "Sable Studios" },
+  "license": "SEE LICENSE",
+  "keywords": ["vrchat", "avatar", "editor"],
+  "vpmDependencies": {
+    "com.vrchat.avatars": ">=3.10.0"
+  },
+  "url": ""
+}
