@@ -1,0 +1,14 @@
+{
+  "name": "studio.sable.toolbox.materials",
+  "displayName": "Sable Toolbox Materials",
+  "version": "0.0.4",
+  "unity": "2022.3",
+  "description": "Shader and material manager: inventory, bulk edit across shader families, presets and Poiyomi lock management. Editor-only.",
+  "author": { "name": "Sable Studios" },
+  "license": "GPL-3.0-only",
+  "keywords": ["vrchat", "avatar", "material", "shader"],
+  "vpmDependencies": {
+    "studio.sable.toolbox.core": ">=0.0.4"
+  },
+  "url": ""
+}

@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "_comment": "Shader families (matched by shader name prefix, including Poiyomi's locked 'Hidden/Locked/' copies) and semantic aliases that map one control onto each family's property. 'verifiedAgainst' is documentation only.",
+  "families": [
+    {
+      "id": "poiyomi",
+      "name": "Poiyomi",
+      "shaderPrefixes": [".poiyomi/", "Hidden/Locked/.poiyomi/"],
+      "verifiedAgainst": "com.poiyomi.toon 9.3.64"
+    },
+    {
+      "id": "liltoon",
+      "name": "lilToon",
+      "shaderPrefixes": ["lilToon", "Hidden/lilToon", "_lil/"],
+      "verifiedAgainst": "UNVERIFIED: lilToon is not installed in any local project"
+    },
+    {
+      "id": "standard",
+      "name": "Standard",
+      "shaderPrefixes": ["Standard", "Autodesk Interactive"],
+      "verifiedAgainst": "Unity 2022.3 built-in"
+    }
+  ],
+  "aliases": [
+    {
+      "id": "mainColor",
+      "label": "Main colour",
+      "type": "Color",
+      "properties": [
+        { "family": "poiyomi", "property": "_Color" },
+        { "family": "liltoon", "property": "_Color" },
+        { "family": "standard", "property": "_Color" }
+      ]
+    },
+    {
+      "id": "mainTexture",
+      "label": "Main texture",
+      "type": "Texture",
+      "properties": [
+        { "family": "poiyomi", "property": "_MainTex" },
+        { "family": "liltoon", "property": "_MainTex" },
+        { "family": "standard", "property": "_MainTex" }
+      ]
+    },
+    {
+      "id": "emissionColor",
+      "label": "Emission colour",
+      "type": "Color",
+      "properties": [
+        { "family": "poiyomi", "property": "_EmissionColor" },
+        { "family": "liltoon", "property": "_EmissionColor" },
+        { "family": "standard", "property": "_EmissionColor" }
+      ]
+    },
+    {
+      "id": "emissionStrength",
+      "label": "Emission strength",
+      "type": "Float",
+      "properties": [
+        { "family": "poiyomi", "property": "_EmissionStrength" },
+        { "family": "liltoon", "property": "_EmissionBlend" }
+      ]
+    },
+    {
+      "id": "lightingMode",
+      "label": "Lighting mode",
+      "type": "Float",
+      "properties": [
+        { "family": "poiyomi", "property": "_LightingMode" }
+      ]
+    },
+    {
+      "id": "outlineWidth",
+      "label": "Outline width",
+      "type": "Float",
+      "properties": [
+        { "family": "poiyomi", "property": "_LineWidth" },
+        { "family": "liltoon", "property": "_OutlineWidth" }
+      ]
+    }
+  ]
+}
