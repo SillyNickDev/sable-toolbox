@@ -89,6 +89,27 @@
           },
           "url": "https://github.com/SillyNickDev/sable-toolbox/releases/download/v0.0.4/studio.sable.toolbox.core-0.0.4.zip",
           "zipSHA256": "2a25a69df92bae4efde73b49dd73d3f61ae727cb7be9d40b80315581fe81a38e"
+        },
+        "0.0.5": {
+          "name": "studio.sable.toolbox.core",
+          "displayName": "Sable Toolbox Core",
+          "version": "0.0.5",
+          "unity": "2022.3",
+          "description": "Avatar scanner, asset graph, findings, adapters and the Sable Toolbox window. Editor-only.",
+          "author": {
+            "name": "Sable Studios"
+          },
+          "license": "GPL-3.0-only",
+          "keywords": [
+            "vrchat",
+            "avatar",
+            "editor"
+          ],
+          "vpmDependencies": {
+            "com.vrchat.avatars": ">=3.10.0"
+          },
+          "url": "https://github.com/SillyNickDev/sable-toolbox/releases/download/v0.0.5/studio.sable.toolbox.core-0.0.5.zip",
+          "zipSHA256": "b9b13a16777214e51bfa23677e250ac754bbec4b93b42ec82e711597fba092b3"
         }
       }
     },
@@ -177,6 +198,27 @@
           },
           "url": "https://github.com/SillyNickDev/sable-toolbox/releases/download/v0.0.4/studio.sable.toolbox.rigging-0.0.4.zip",
           "zipSHA256": "7cca75817a7c942981c53f7c497d9a19c060fb7e6d61063d851d2303b6924393"
+        },
+        "0.0.5": {
+          "name": "studio.sable.toolbox.rigging",
+          "displayName": "Sable Toolbox Rigging",
+          "version": "0.0.5",
+          "unity": "2022.3",
+          "description": "Rigging modules for Sable Toolbox: BlendShape Copier. Editor-only.",
+          "author": {
+            "name": "Sable Studios"
+          },
+          "license": "GPL-3.0-only",
+          "keywords": [
+            "vrchat",
+            "avatar",
+            "blendshape"
+          ],
+          "vpmDependencies": {
+            "studio.sable.toolbox.core": ">=0.0.1"
+          },
+          "url": "https://github.com/SillyNickDev/sable-toolbox/releases/download/v0.0.5/studio.sable.toolbox.rigging-0.0.5.zip",
+          "zipSHA256": "c9a00892b7d99d7660a44bcc145e8cb6c711e77f0555e40a59a3af010b83c23e"
         }
       }
     },
@@ -247,6 +289,28 @@
           },
           "url": "https://github.com/SillyNickDev/sable-toolbox/releases/download/v0.0.4/studio.sable.toolbox.qa-0.0.4.zip",
           "zipSHA256": "eb4de978e0f07133295bd0dd5287eca2b987de80d8efe6e7b0fc90c403b1771f"
+        },
+        "0.0.5": {
+          "name": "studio.sable.toolbox.qa",
+          "displayName": "Sable Toolbox QA",
+          "version": "0.0.5",
+          "unity": "2022.3",
+          "description": "Avatar linter with rule profiles, one-click fixes, reports and an upload gate. Editor-only.",
+          "author": {
+            "name": "Sable Studios"
+          },
+          "license": "GPL-3.0-only",
+          "keywords": [
+            "vrchat",
+            "avatar",
+            "lint",
+            "qa"
+          ],
+          "vpmDependencies": {
+            "studio.sable.toolbox.core": ">=0.0.3"
+          },
+          "url": "https://github.com/SillyNickDev/sable-toolbox/releases/download/v0.0.5/studio.sable.toolbox.qa-0.0.5.zip",
+          "zipSHA256": "ed430357ed03fb36918f29a605f19bbd8b2e9995309adf205b908e2a1fca3fa1"
         }
       }
     },
@@ -273,6 +337,28 @@
           },
           "url": "https://github.com/SillyNickDev/sable-toolbox/releases/download/v0.0.4/studio.sable.toolbox.materials-0.0.4.zip",
           "zipSHA256": "17bfacd4a8301cc29172cf99cc4929ff53be27f3e20535ae9d053e3a23325a9f"
+        },
+        "0.0.5": {
+          "name": "studio.sable.toolbox.materials",
+          "displayName": "Sable Toolbox Materials",
+          "version": "0.0.5",
+          "unity": "2022.3",
+          "description": "Shader and material manager: inventory, bulk edit across shader families, presets and Poiyomi lock management. Editor-only.",
+          "author": {
+            "name": "Sable Studios"
+          },
+          "license": "GPL-3.0-only",
+          "keywords": [
+            "vrchat",
+            "avatar",
+            "material",
+            "shader"
+          ],
+          "vpmDependencies": {
+            "studio.sable.toolbox.core": ">=0.0.4"
+          },
+          "url": "https://github.com/SillyNickDev/sable-toolbox/releases/download/v0.0.5/studio.sable.toolbox.materials-0.0.5.zip",
+          "zipSHA256": "6cde436f6e8c4676984fc984304d63ea6997ac3d7a7f64673a0a2742e593fe77"
         }
       }
     }
