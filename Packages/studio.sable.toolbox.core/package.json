@@ -1,7 +1,7 @@
 {
   "name": "studio.sable.toolbox.core",
   "displayName": "Sable Toolbox Core",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "unity": "2022.3",
   "description": "Avatar scanner, asset graph, findings, adapters and the Sable Toolbox window. Editor-only.",
   "author": { "name": "Sable Studios" },
